@@ -6,7 +6,13 @@ let choicesNumber = choices.length;
 let playerScore = 0;
 let computerScore = 0;
 
+const buttons = document.querySelectorAll("button");
+buttons.forEach((button) => {
+    button.addEventListener("click", () => playRound);
+})
 
+
+/*
 for (let i=1; i<=5; i++) {
     let computerSelection = computerChoice(choicesNumber);
     console.log("Computer selected: " + computerSelection);
@@ -28,6 +34,8 @@ if (computerScore < playerScore) {
 } else {
     console.log("TIE!")
 }
+*/
+
 
 
 /* FUNCTIONS */
