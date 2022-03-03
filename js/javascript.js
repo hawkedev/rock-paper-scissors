@@ -6,36 +6,54 @@ let choicesNumber = choices.length;
 let playerScore = 0;
 let computerScore = 0;
 
+const container = document.querySelector("#container");
+const contentPlayerChoice = document.createElement("div");
+const contentComputerChoice = document.createElement("div");
+const contentResult = document.createElement("div");
+const contentPlayerScore = document.createElement("div");
+const contentComputerScore = document.createElement("div");
+const contentFinalResult = document.createElement("div");
+
 const buttons = document.querySelectorAll("button");
 buttons.forEach((button) => {
-    button.addEventListener("click", () => playRound);
-})
+    button.addEventListener("click", function(e) {playRound(button.value)});
+});
 
+function playRound(playerSelection) {
+    
+    if (playerScore<5 && computerScore<5) {
 
-/*
-for (let i=1; i<=5; i++) {
-    let computerSelection = computerChoice(choicesNumber);
-    console.log("Computer selected: " + computerSelection);
-    let playerSelection = playerChoice();
-    console.log("Player selected: " + playerSelection);
-    let partialResult = winner(computerSelection, playerSelection)[0];
-    console.log(partialResult);
-    computerScore += winner(computerSelection, playerSelection)[2];
-    console.log("Computer's score: " + computerScore);
-    playerScore += winner(computerSelection, playerSelection)[1];
-    console.log("Player's score: " + playerScore);
-}
+        contentPlayerChoice.textContent = `Player selected ${playerSelection}`;
+        container.appendChild(contentPlayerChoice);
 
-if (computerScore > playerScore) {
-    console.log("COMPUTER WINS!")
-} else
-if (computerScore < playerScore) {
-    console.log("PLAYER WINS!")
-} else {
-    console.log("TIE!")
-}
-*/
+        let computerSelection = computerChoice(choicesNumber);
+        contentComputerChoice.textContent = `Computer selected ${computerSelection}`;
+        container.appendChild(contentComputerChoice);
 
+        let partialResult = winner(computerSelection, playerSelection)[0];
+        contentResult.textContent = `${partialResult}`;
+        container.appendChild(contentResult);
+
+        playerScore += winner(computerSelection, playerSelection)[1];
+        contentPlayerScore.textContent = `${"Player's score: " + playerScore}`;
+        container.appendChild(contentPlayerScore);
+
+        computerScore += winner(computerSelection, playerSelection)[2];
+        contentComputerScore.textContent = `${"Computer's score: " + computerScore}`;
+        container.appendChild(contentComputerScore);
+    } else
+    if (playerScore=5 && computerScore<5) {
+        contentFinalResult.textContent = "PLAYER WINS!";
+        container.appendChild(contentFinalResult);
+    } else
+    if (computerScore=5 && playerScore<5) {
+        contentFinalResult.textContent = "COMPUTER WINS!";
+        container.appendChild(contentFinalResult);
+    } else {
+        contentFinalResult.textContent = "TIE!";
+        container.appendChild(contentFinalResult);
+    };
+};
 
 
 /* FUNCTIONS */
@@ -45,13 +63,6 @@ function computerChoice(choicesNumber) {
     let computerSelectionNumber = Math.floor(Math.random()*choicesNumber);
     let computerSelection = choices[computerSelectionNumber];
     return computerSelection;
-}
-
-/*retrieve user's choice */
-function playerChoice() {
-    let playerInput = prompt("What's your choice? Rock, paper or scissors?");
-    let playerSelection = playerInput[0].toUpperCase()+playerInput.slice(1).toLowerCase()
-    return(playerSelection);
 }
 
 /* define winner */
@@ -114,5 +125,3 @@ function winner(computerSelection, playerSelection) {
         return [result, playerScore, computerScore];
     }
 }
-
-
